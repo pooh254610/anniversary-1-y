@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Anniversary 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Sarabun',sans-serif;
+  background:linear-gradient(180deg,#ffe6ec,#fff);
+  display:flex;
+  justify-content:center;
+  overflow-x:hidden;
+}
+#app{
+  max-width:420px;
+  width:100%;
+  min-height:100vh;
+  background:#fff;
+  box-shadow:0 0 25px rgba(0,0,0,.1);
+  overflow:visible;
+}
+.hidden{display:none}
+
+/* ===== ANIMATION ===== */
+@keyframes float{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-100vh);opacity:0}
+}
+
+/* ===== HEART ===== */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:float 4s linear;
+  pointer-events:none;
+  z-index:999999;
+}
+
+/* ===== LOCK PAGE ===== */
+#lock{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.lock-box{
+  background:#fff5f8;
+  padding:34px 22px 30px;
+  border-radius:32px;
+  box-shadow:0 15px 40px rgba(255,120,160,.35);
+}
+.lock-img{
+  width:140px;height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  border:6px solid white;
+}
+.pin{
+  font-size:30px;
+  letter-spacing:14px;
+  margin:18px 0 6px;
+  color:#d81b60;
+  min-height:34px;
+}
+.pin-hint{
+  font-size:13px;
+  color:#b85c75;
+  margin-bottom:22px;
+}
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.key{
+  width:60px;height:60px;
+  border-radius:50%;
+  border:none;
+  background:#ffe6ec;
+  font-size:20px;
+}
+.key.del{
+  background:#ffd1dc;
+  font-size:22px;
+}
+
+/* ===== LETTER ===== */
+#letter{text-align:center;padding:40px 20px}
+.btn{
+  margin-top:20px;padding:14px 30px;
+  border:none;border-radius:30px;
+  background:#ff85a2;color:white;
+  font-size:16px;
+}
+
+/* ===== PUZZLE ===== */
+#puzzle{text-align:center;padding:20px}
+.grid{
+  width:300px;height:300px;margin:20px auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+}
+.piece{background-size:300px 300px;cursor:pointer}
+
+/* ===== QUIZ ===== */
+#quiz{padding:20px;text-align:center}
+.option{
+  background:#ffe6ec;
+  padding:10px;
+  margin:8px 0;
+  border-radius:12px;
+  cursor:pointer;
+}
+.option.active{
+  background:#ff85a2;
+  color:#fff;
+}
+
+/* ===== CONTENT ===== */
+#content{padding:20px}
+
+.note{
+  background:#fff5f8;
+  border:2px dashed #ff85a2;
+  border-radius:18px;
+  padding:22px;
+  white-space:pre-wrap;
+  line-height:1.8;
+}
+
+.note h3{
+  margin-top:0;
+  margin-bottom:8px;
+}
+
+.note p{
+  margin-top:0;
+}
+
+.card{
+  margin-top:25px;
+  background:linear-gradient(45deg,#ff85a2,#ffb3c6);
+  border-radius:20px;padding:22px;
+  color:white;text-align:center;
+}
+.timer{
+  display:flex;justify-content:space-between;margin-top:15px;
+}
+.time-box{
+  background:white;color:#d81b60;
+  border-radius:12px;width:65px;
+  padding:10px 5px;font-size:12px;
+}
+.time-box span{display:block;font-size:18px;font-weight:bold}
+video{
+  width:100%;margin-top:15px;border-radius:15px;
+}
+
+/* ❤️🎆 HEART FIREWORK */
+.firework-heart{
+  position:fixed;
+  bottom:-30px;
+  font-size:22px;
+  pointer-events:none;
+  z-index:999998;
+  animation:heartFirework ease-out forwards;
+}
+@keyframes heartFirework{
+  0%{transform:translateY(0) scale(.6);opacity:1}
+  70%{opacity:1}
+  100%{transform:translateY(-90vh) scale(2.2);opacity:0}
+}
+
+/* 🎵 MUSIC BUTTON */
+.music-btn{
+  position:fixed;
+  top:16px;
+  right:16px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,#ff85a2,#ffb3c6);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(255,120,160,.45);
+  z-index:999999;
+}
+.music-btn.muted{
+  background:#ffd1dc;
+  color:#d81b60;
+}
+
+/* 🎆 NEW YEAR FIREWORK */
+.firework{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:transparent;
+  pointer-events:none;
+  z-index:999997;
+}
+.firework::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  box-shadow:
+    0 -20px #ff4d6d,
+    14px -14px #ffd166,
+    20px 0 #4d96ff,
+    14px 14px #c77dff,
+    0 20px #ff85a2,
+    -14px 14px #ffd166,
+    -20px 0 #4d96ff,
+    -14px -14px #c77dff;
+  animation:explode 1.2s ease-out forwards;
+}
+@keyframes explode{
+  0%{transform:scale(0);opacity:1}
+  100%{transform:scale(1.6);opacity:0}
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+
+<!-- LOCK -->
+<div id="lock">
+  <div class="lock-box">
+    <img src="img/lock.jpeg" class="lock-img">
+    <h3>ใส่รวันครบรอบ 💖</h3>
+    ใส่ใหัถูกนะอ้วนๆ
+    <div class="pin" id="pin"></div>
+    <div class="pin-hint">วัน / เดือน / ปี (DDMMYY)</div>
+    <div class="keypad" id="pad">
+      <button class="key">1</button><button class="key">2</button><button class="key">3</button>
+      <button class="key">4</button><button class="key">5</button><button class="key">6</button>
+      <button class="key">7</button><button class="key">8</button><button class="key">9</button>
+      <button class="key del">⌫</button>
+      <button class="key">0</button>
+    </div>
+  </div>
+</div>
+
+<!-- LETTER -->
+<div id="letter" class="hidden">
+  <h2>อยากอ่านจดหมายไหมล่ะ<br>แต่ต้องเป็นเกมให้ชนะก่อนนะ อิอิ 💌</h2>
+  <button class="btn" id="toPuzzle">ไปเพื่อนเล่นเกม</button>
+</div>
+
+<!-- PUZZLE -->
+<div id="puzzle" class="hidden">
+  <h2>เค้าชอบภาพนี้มากที่สุด ต่อให้ถูกล่ะ 🧩</h2>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="hidden">
+  <div class="question" data-answer="0">
+    <h3>1. ตุ๊กตาที่เค้าซื้อให้ตัวแรกชื่ออะไร</h3>
+    <div class="option">บีก้า</div>
+    <div class="option">ชูก้า</div>
+  </div>
+  <div class="question" data-answer="0">
+    <h3>2. ร้านอาหารแรกที่กินด้วยกันคือร้านอะไร</h3>
+    <div class="option">Oppa Daek</div>
+    <div class="option">Swensen's</div>
+  </div>
+  <div class="question" data-answer="4">
+    <h3>3. วันที่ขอเป็นแฟนตรงกับวันอะไร</h3>
+    <div class="option">วันจันทร์</div>
+    <div class="option">วันอังคาร</div>
+    <div class="option">วันพุธ</div>
+    <div class="option">วันศุกร์</div>
+    <div class="option">วันเสาร์</div>
+  </div>
+  <button class="btn" id="submitQuiz">ส่งคำตอบ</button>
+</div>
+
+<!-- VIDEO -->
+<div id="videoScreen" class="hidden">
+  <video id="memoryVideo" src="img/video/memory3.mp4" playsinline></video>
+</div>
+
+<!-- CONTENT -->
+<div id="content" class="hidden">
+  <div class="note">
+    <h3>ถึงที่รักของเค้า ❤️</h3>
+    <p id="loveText">
+ผลอแป๊บเดียวเนอะอ้วน
+เราสองคนเดินมาด้วยกันครบ 1 ปีกับอีก 1 เดือนเต็ม แล้ว
+ขอบคุณอ้วนที่เข้ามาเป็นความสบายใจของเค้า
+ขอบคุณที่คอยอยู่ข้าง ๆ ในวันที่เค้าท้อ เหนื่อย หรือไม่ไหว
+อ้วนไม่เคยไปไหนเลย เค้ารักอ้วนมากๆ
+
+ขอโทษด้วยนะอ้วน
+ในวันที่เค้าพูดไม่คิด งี่เง่า เอาแต่ใจ หรือทำให้อ้วนเสียใจ
+ขอบคุณที่อ้วนยังเข้าใจ ยังอดทน
+และยังเลือกจะรักเค้าในแบบนี้ตลอดไป
+
+Happy New Year นะอ้วน 🎆
+ขอให้ปีใหม่ปีนี้อ้วนมีแต่ความสุข
+ยิ้มได้บ่อย ๆ นอนหลับสบาย สุขภาพแข็งแรง
+ขอให้เรื่องเหนื่อย ๆ หายไป
+และมีแต่เรื่องดี ๆ เข้ามาในชีวิตอ้วนเยอะ ๆ
+
+ขอให้ปีใหม่นี้
+เรายังรักกันไปแบบนี้ตลอดๆ
+กินข้าวด้วยกัน หัวเราะด้วยกัน
+ทะเลาะกันน้อยลง รักกันให้มากๆขึ้นทุกวัน
+และอยู่ข้างกันไปนาน ๆ
+
+ถึงปีใหม่ทุกปีที่ผ่านมา
+เราไม่เคยได้อยู่ด้วยกันเลยสักครั้ง
+ไม่ได้เคาท์ดาวน์ข้าง ๆ กัน
+ไม่ได้จับมือดูพลุเหมือนคู่อื่น ๆ
+แต่เค้าก็ยังรักอ้วนเหมือนเดิมทุกวันนะ
+ไม่เคยน้อยลงเลยแม้แต่นิดเดียวเลย
+</p>
+
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>เรารักกันมาแล้ว</h2>
+    <div class="timer">
+      <div class="time-box"><span id="d">0</span>วัน</div>
+      <div class="time-box"><span id="h">0</span>ชม.</div>
+      <div class="time-box"><span id="m">0</span>นาที</div>
+      <div class="time-box"><span id="s">0</span>วิ</div>
+    </div>
+    <video src="img/video/memory1.mp4" autoplay muted loop playsinline></video>
+    <video src="img/video/memory2.mp4" autoplay muted loop playsinline></video>
+  </div>
+</div>
+
+<audio id="bgm" src="img/music/bgm.mp3" loop></audio>
+</div>
+
+<button id="musicToggle" class="music-btn">🎵</button>
+
+<script>
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=(Math.random()*100)+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},700);
+
+const PIN="301124";
+const START="2024-11-30";
+const PUZZLE_IMAGE="img/puzzle.jpeg";
+
+const lock=document.getElementById("lock");
+const letter=document.getElementById("letter");
+const puzzle=document.getElementById("puzzle");
+const quiz=document.getElementById("quiz");
+const content=document.getElementById("content");
+const pinEl=document.getElementById("pin");
+const pad=document.getElementById("pad");
+const grid=document.getElementById("grid");
+const bgm=document.getElementById("bgm");
+const videoPage=document.getElementById("videoScreen");
+const memoryVideo=document.getElementById("memoryVideo");
+
+const d=document.getElementById("d");
+const h=document.getElementById("h");
+const m=document.getElementById("m");
+const s=document.getElementById("s");
+
+function typeByWord(el,speed){
+  const text=el.innerText.trim();
+  const words=text.split(/\s+/);
+  el.innerText="";
+  let i=0;
+  const timer=setInterval(()=>{
+    el.innerText+=words[i]+" ";
+    i++;
+    if(i>=words.length){clearInterval(timer);}
+  },speed);
+}
+
+let input="";
+pad.onclick=e=>{
+  if(!e.target.classList.contains("key"))return;
+  if(e.target.classList.contains("del")){
+    input=input.slice(0,-1);
+    pinEl.innerText="*".repeat(input.length);
+    return;
+  }
+  input+=e.target.innerText;
+  pinEl.innerText="*".repeat(input.length);
+  if(input.length===6){
+    if(input===PIN){
+      lock.style.display="none";
+      letter.style.display="block";
+    }else{
+      input="";
+      pinEl.innerText="";
+    }
+  }
+};
+
+document.getElementById("toPuzzle").onclick=()=>{
+  letter.style.display="none";
+  puzzle.style.display="block";
+  initPuzzle();
+};
+
+let selected=null;
+function initPuzzle(){
+  grid.innerHTML="";
+  [...Array(9).keys()].sort(()=>Math.random()-0.5).forEach(i=>{
+    const d=document.createElement("div");
+    d.className="piece";
+    d.dataset.i=i;
+    d.style.backgroundImage=`url(${PUZZLE_IMAGE})`;
+    d.style.backgroundPosition=`${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
+    d.onclick=()=>selectPiece(d);
+    grid.appendChild(d);
+  });
+}
+function selectPiece(el){
+  if(!selected){selected=el;return;}
+  [el.style.backgroundPosition,selected.style.backgroundPosition]=
+  [selected.style.backgroundPosition,el.style.backgroundPosition];
+  [el.dataset.i,selected.dataset.i]=
+  [selected.dataset.i,el.dataset.i];
+  selected=null;
+  checkPuzzle();
+}
+function checkPuzzle(){
+  const ok=[...document.querySelectorAll(".piece")]
+    .every((p,i)=>Number(p.dataset.i)===i);
+  if(ok){
+    puzzle.style.display="none";
+    quiz.classList.remove("hidden");
+  }
+}
+
+document.querySelectorAll("#quiz .option").forEach(option=>{
+  option.onclick=()=>{
+    const q=option.parentElement;
+    q.querySelectorAll(".option").forEach(o=>o.classList.remove("active"));
+    option.classList.add("active");
+  };
+});
+
+document.getElementById("submitQuiz").onclick=()=>{
+  let pass=true;
+  document.querySelectorAll("#quiz .question").forEach(q=>{
+    const correct=Number(q.dataset.answer);
+    const selected=[...q.querySelectorAll(".option")]
+      .findIndex(o=>o.classList.contains("active"));
+    if(selected!==correct) pass=false;
+  });
+  if(pass){
+    quiz.classList.add("hidden");
+    videoPage.classList.remove("hidden");
+    memoryVideo.play();
+  }
+};
+
+function launchFirework(){
+  const f=document.createElement("div");
+  f.className="firework";
+  f.style.left=Math.random()*100+"vw";
+  f.style.top=Math.random()*60+"vh";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1200);
+}
+
+let heartFireworkTimer=null;
+function launchHeartFirework(){
+  const heartEl=document.createElement("div");
+  heartEl.className="firework-heart";
+  heartEl.innerText=Math.random()>0.5?"❤️":"💖";
+  heartEl.style.left=Math.random()*100+"vw";
+  document.body.appendChild(heartEl);
+  setTimeout(()=>heartEl.remove(),4500);
+}
+
+memoryVideo.onended=()=>{
+  videoPage.classList.add("hidden");
+  content.classList.remove("hidden");
+  bgm.play();
+  heartFireworkTimer=setInterval(launchHeartFirework,600);
+  setInterval(launchFirework,900);
+  typeByWord(document.getElementById("loveText"),300);
+  const start=new Date(START).getTime();
+  setInterval(()=>{
+    let diff=Date.now()-start;
+    d.innerText=Math.floor(diff/86400000);
+    diff%=86400000;
+    h.innerText=Math.floor(diff/3600000);
+    diff%=3600000;
+    m.innerText=Math.floor(diff/60000);
+    s.innerText=Math.floor((diff%60000)/1000);
+  },1000);
+};
+
+const musicBtn=document.getElementById("musicToggle");
+musicBtn.onclick=()=>{
+  if(bgm.paused){
+    bgm.play();
+    musicBtn.textContent="🎵";
+    musicBtn.classList.remove("muted");
+  }else{
+    bgm.pause();
+    musicBtn.textContent="🔇";
+    musicBtn.classList.add("muted");
+  }
+};
+</script>
+</body>
+</html>
